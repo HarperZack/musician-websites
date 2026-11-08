@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!-- Immediate Theme Application to prevent flash of unstyled content -->
+	<script type="module">
+		import { musicianConfig } from "./js/config.js";
+		document.documentElement.setAttribute("data-theme", musicianConfig.theme || "ocean-jazz");
+	</script>
+
+	<!-- Primary Meta Tags (dynamically populated by app.js from config) -->
+	<title>Musician Portfolio</title>
+	<meta name="description" content="Freelance musician portfolio - Corporate Events, Weddings, Musicals, and Festivals." />
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/variables.css" />
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+	<!-- =========================================================================
+		 Site Header / Navigation
+		 ========================================================================= -->
+	<header class="site-header" id="site-header">
+		<nav class="nav-container">
+			<a href="#hero" class="nav-brand" id="nav-musician-name">Musician Name</a>
+			<button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+				<span class="hamburger-bar"></span>
+				<span class="hamburger-bar"></span>
+				<span class="hamburger-bar"></span>
+			</button>
+			<ul class="nav-links" id="nav-links">
+				<li><a href="#about">About</a></li>
+				<li><a href="#services">Services</a></li>
+				<li><a href="#audio">Audio</a></li>
+				<li><a href="#media">Media</a></li>
+				<li><a href="#calendar">Performances</a></li>
+				<li><a href="#contact" class="nav-cta">Book / Contact</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<!-- =========================================================================
+			 Hero Section
+			 ========================================================================= -->
+		<section class="section section-hero" id="hero">
+			<div class="container hero-content">
+				<!-- Headshot portrait wrapper -->
+				<div class="hero-avatar-wrapper" id="hero-avatar-wrapper">
+					<img
+						src=""
+						alt="Zack Harper Headshot"
+						class="hero-avatar-img"
+						id="hero-avatar-img"
+						style="display: none;"
+						loading="eager"
+					/>
+				</div>
+				<h1 class="hero-name" id="hero-name">Musician Name</h1>
+				<div class="hero-taglines" id="hero-tagline-container">
+					<!-- Tagline lines populated cleanly via DOM elements -->
+				</div>
+				<p class="hero-location" id="hero-location">City, State / Region</p>
+				<div class="hero-actions">
+					<a href="#audio" class="btn btn-primary">Listen to Demos</a>
+					<a href="#contact" class="btn btn-secondary">Inquire About Dates</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================================
+			 About Section
+			 ========================================================================= -->
+		<section class="section section-about" id="about">
+			<div class="container">
+				<h2 class="section-title">About Me</h2>
+				<br>
+				<div class="about-grid">
+					<div class="about-bio" id="about-bio-container">
+						<!-- Paragraphs populated cleanly via textContent -->
+					</div>
+					<div class="about-highlights">
+						<h3>Specialties &amp; Skills</h3>
+						<div class="badge-list" id="about-highlights-list">
+							<!-- Badges populated from config via template -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================================
+			 Services Section (Weddings, Corporate, Pit, Festivals)
+			 ========================================================================= -->
+		<section class="section section-services" id="services">
+			<div class="container">
+				<h2 class="section-title">Offerings</h2>
+				<p class="section-subtitle">Tailored musical services for every occasion.</p>
+				<div class="services-grid" id="services-grid">
+					<!-- Cloned from template#tmpl-service-card -->
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================================
+			 Audio Showcase (Custom HTML5 Player)
+			 ========================================================================= -->
+		<section class="section section-audio" id="audio">
+			<div class="container">
+				<h2 class="section-title">Audio Showcase</h2>
+				<p class="section-subtitle">Direct recordings and solo samples.</p>
+				
+				<div class="audio-player-wrapper" id="audio-player-wrapper">
+					<!-- Player controls and current track display -->
+					<div class="current-track-info">
+						<span class="track-title" id="player-track-title">Select a track</span>
+						<span class="track-genre" id="player-track-genre"></span>
+					</div>
+
+					<!-- HTML5 Audio element managed via audio-player.js -->
+					<audio id="main-audio-element" preload="none"></audio>
+
+					<!-- Custom audio controls -->
+					<div class="player-controls">
+						<button type="button" id="player-btn-prev" class="player-btn" aria-label="Previous track">&#9198;</button>
+						<button type="button" id="player-btn-play" class="player-btn btn-play-main" aria-label="Play or pause">&#9658;</button>
+						<button type="button" id="player-btn-next" class="player-btn" aria-label="Next track">&#9197;</button>
+						
+						<div class="progress-bar-container" id="player-progress-container">
+							<div class="progress-bar-fill" id="player-progress-fill"></div>
+						</div>
+						
+						<span class="time-display" id="player-time-display">0:00 / 0:00</span>
+					</div>
+
+					<!-- Track list playlist (items cloned from template#tmpl-playlist-item) -->
+					<ul class="playlist" id="audio-playlist" role="list"></ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================================
+			 Media Section (YouTube Video Embeds & Image Gallery)
+			 ========================================================================= -->
+		<section class="section section-media" id="media">
+			<div class="container">
+				<h2 class="section-title">Videos &amp; Gallery</h2>
+				<p class="section-subtitle">Live performances, recordings, and highlights.</p>
+				
+				<!-- Video Grid (cloned from template#tmpl-video-card) -->
+				<div class="media-video-grid" id="media-video-grid"></div>
+
+				<!-- Optional Photo Grid -->
+				<div class="media-photo-grid" id="media-photo-grid"></div>
+			</div>
+		</section>
+
+		<!-- =========================================================================
+			 Performances & Calendar Section
+			 ========================================================================= -->
+		<section class="section section-calendar" id="calendar">
+			<div class="container">
+				<h2 class="section-title">Upcoming Performances</h2>
+				<p class="section-subtitle">Catch an upcoming public gig or show.</p>
+				
+				<!-- Empty state element (toggled via CSS or display, not constructed in JS) -->
+				<div class="no-performances" id="no-performances-msg" style="display: none;">
+					<p>Currently booking private and upcoming public dates. Check back soon for announcements!</p>
+					<a href="#contact" class="btn btn-secondary">Inquire for Private Booking</a>
+				</div>
+
+				<!-- List of upcoming gigs (cloned from template#tmpl-performance-card) -->
+				<div class="performances-list" id="performances-list"></div>
+			</div>
+		</section>
+
+		<!-- =========================================================================
+			 Contact & Booking Inquiry Section
+			 ========================================================================= -->
+		<section class="section section-contact" id="contact">
+			<div class="container contact-container">
+				<h2 class="section-title">Inquire / Book</h2>
+				<p class="section-subtitle">Let's discuss music for your upcoming event, show, or project.</p>
+				
+				<form class="booking-form" id="booking-form" method="POST">
+					<div class="form-row">
+						<div class="form-group">
+							<label for="client-name">Your Name *</label>
+							<input type="text" id="client-name" name="name" required placeholder="Jane Doe" />
+						</div>
+						<div class="form-group">
+							<label for="client-email">Email Address *</label>
+							<input type="email" id="client-email" name="email" required placeholder="jane@example.com" />
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group">
+							<label for="event-type">Event / Inquiry Type</label>
+							<select id="event-type" name="event_type">
+								<option value="corporate">Corporate Event</option>
+								<option value="wedding">Wedding / Private Function</option>
+								<option value="musical">Musical / Pit Orchestra</option>
+								<option value="festival">Festival / Concert</option>
+								<option value="other">Other Inquiry</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="event-date">Tentative Date</label>
+							<input type="date" id="event-date" name="event_date" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="event-details">Event Details &amp; Location</label>
+						<textarea id="event-details" name="details" rows="5" placeholder="Tell me about your venue, schedule, specific repertoire requests, or instrumentation needs..."></textarea>
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-submit">Send Inquiry</button>
+					<p class="form-status" id="form-status" aria-live="polite"></p>
+				</form>
+			</div>
+		</section>
+	</main>
+
+	<!-- =========================================================================
+		 Site Footer
+		 ========================================================================= -->
+	<footer class="site-footer">
+		<div class="container footer-content">
+			<p id="footer-copyright">&copy; <span id="current-year"></span> Zack Harper. All rights reserved.</p>
+			<div class="social-links" id="social-links">
+				<!-- Social links dynamically populated from templates/social-link.html -->
+			</div>
+		</div>
+	</footer>
+
+	<!-- Scripts (Modular ES6 JavaScript) -->
+	<script type="module" src="js/app.js"></script>
+</body>
+</html>
