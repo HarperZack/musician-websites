@@ -18,9 +18,16 @@ export class MediaGallery {
 	}
 
 	init() {
-		if (!this.container || this.items.length === 0) return;
-		this.render();
-	}
+        if (!this.container) {
+            console.error("❌ SILENT ERROR: init() aborted because container element was not found in DOM!");
+            return;
+        }
+        if (this.items.length === 0) {
+            console.warn("⚠️ SILENT ERROR: init() aborted because items array is empty!");
+            return;
+        }
+        this.render();
+    }
 
 	render() {
 		this.container.textContent = "";
@@ -57,36 +64,114 @@ export class MediaGallery {
 	}
 
 	renderInstagram(item, templateName) {
-		const clone = getTemplateClone(templateName);
-		if (!clone) return;
+        const clone = getTemplateClone(templateName);
+        if (!clone) {
+            console.error(`❌ SILENT ERROR: getTemplateClone("${templateName}") returned null. Check your template paths/names!`);
+            return;
+        }
 
-		const iframe = clone.querySelector("[data-field='iframe']");
-		const title = clone.querySelector("[data-field='title']");
-		const desc = clone.querySelector("[data-field='description']");
+        const container = clone.querySelector("[data-field='embed-container']");
+        if (!container) {
+            console.error(`❌ SILENT ERROR: [data-field='embed-container'] not found inside template: "${templateName}"`);
+            return;
+        }
 
-		// Extract post/reel ID or normalize embed URL
-		// Instagram embed endpoints:
-		// Standard posts and reels both respond reliably at /p/{id}/embed/
-		let embedUrl = "";
-		if (item.postId) {
-			embedUrl = `https://www.instagram.com/p/${encodeURIComponent(item.postId)}/embed/`;
-		} else if (item.url) {
-			// Extract ID from any Instagram URL (e.g. /reel/ID/ or /p/ID/)
-			const idMatch = item.url.match(/instagram\.com\/(?:reel|p)\/([^/?#&]+)/i);
-			if (idMatch && idMatch[1]) {
-				embedUrl = `https://www.instagram.com/p/${encodeURIComponent(idMatch[1])}/embed/`;
-			} else {
-				const cleanUrl = item.url.split("?")[0].replace(/\/$/, "");
-				embedUrl = `${cleanUrl}/embed/`;
-			}
-		}
+        let postUrl = "";
+        if (item.postId) {
+            postUrl = `https://www.instagram.com/p/${item.postId}/`;
+        } else if (item.url) {
+            postUrl = item.url.split("?")[0];
+        }
 
-		if (iframe && embedUrl) {
-			iframe.src = embedUrl;
-		}
-		if (title) title.textContent = item.title || "";
-		if (desc) desc.textContent = item.description || "";
+        if (postUrl) {
+            container.innerHTML = `
+                <blockquote 
+                    class="instagram-media" 
+                    data-instgrm-permalink="${postUrl}" 
+                    data-instgrm-version="14"
+                    style="background:#FFF; border:0; margin:1px; max-width:540px; min-width:326px; width:calc(100% - 2px);">
+                </blockquote>
+            `;
+        }
 
-		this.container.appendChild(clone);
-	}
+        const title = clone.querySelector("[data-field='title']");
+        const desc = clone.querySelector("[data-field='description']");
+        if (title) title.textContent = item.title || "";
+        if (desc) desc.textContent = item.description || "";
+
+        this.container.appendChild(clone);
+
+        if (window.instgrm && window.instgrm.Embeds) {
+            window.instgrm.Embeds.process();
+        }
+    }
+
+// 	renderInstagram(item, templateName) {
+//     console.group(`[Instagram Embed Debugger] - Item ID: ${item.id || 'Unknown'}`);
+//     console.log("1. Item Data Received:", item);
+
+//     const clone = getTemplateClone(templateName);
+//     if (!clone) {
+//         console.error("❌ FAILED: getTemplateClone returned null/undefined for template:", templateName);
+//         console.groupEnd();
+//         return;
+//     }
+
+//     const title = clone.querySelector("[data-field='title']");
+//     const desc = clone.querySelector("[data-field='description']");
+//     const container = clone.querySelector("[data-field='embed-container']");
+
+//     console.log("2. Target DOM Elements Found:", {
+//         container: !!container,
+//         title: !!title,
+//         desc: !!desc
+//     });
+
+//     if (!container) {
+//         console.error("❌ FAILED: Could not find [data-field='embed-container'] in template!");
+//         console.groupEnd();
+//         return;
+//     }
+
+//     let postUrl = "";
+//     if (item.postId) {
+//         postUrl = `https://www.instagram.com/reel/${item.postId}/`;
+//     } else if (item.url) {
+//         postUrl = item.url.split("?")[0];
+//     }
+//     console.log("3. Constructed Canonical URL:", postUrl);
+
+//     if (postUrl) {
+//         container.innerHTML = `
+//             <blockquote 
+//                 class="instagram-media" 
+//                 data-instgrm-permalink="${postUrl}" 
+//                 data-instgrm-version="14"
+//                 style="background:#FFF; border:0; margin:1px; max-width:540px; min-width:326px; width:calc(100% - 2px);">
+//             </blockquote>
+//         `;
+//     }
+
+//     if (title) title.textContent = item.title || "";
+//     if (desc) desc.textContent = item.description || "";
+
+//     this.container.appendChild(clone);
+//     console.log("4. Clone appended to main DOM container.");
+
+//     // Trigger or load Instagram Embed Script
+//     if (window.instgrm && window.instgrm.Embeds) {
+//         console.log("5. Instagram window.instgrm found. Triggering process()...");
+//         window.instgrm.Embeds.process();
+//     } else {
+//         console.log("5. Instagram script not found. Injecting //www.instagram.com/embed.js...");
+//         const script = document.createElement("script");
+//         script.async = true;
+//         script.src = "//www.instagram.com/embed.js";
+//         script.onload = () => console.log("6. embed.js successfully loaded from Instagram.");
+//         script.onerror = (err) => console.error("❌ FAILED to load embed.js (CORS or network block):", err);
+//         document.body.appendChild(script);
+//     }
+//     console.groupEnd();
+// }
+	
 }

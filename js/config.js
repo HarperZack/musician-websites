@@ -163,14 +163,14 @@ export const musicianConfig = {
 	videos: [
 		{
 			id: "shes-a-bad-mama",
-			type: "instagram-video",
+			type: "instagram",
 			postId: "De48dPdJvQQ",
 			title: "She's a Bad Mama Jama",
 			description: "Quick clip from a recent festival set."
 		},
 		{
 			id: "bangladesh",
-			type: "instagram-photo",
+			type: "instagram",
 			postId: "DaQtXMfJECq",
 			title: "Bangladesh transcription",
 			description: "Transcription of a popular social media song."

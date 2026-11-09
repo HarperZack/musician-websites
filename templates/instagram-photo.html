@@ -3,22 +3,11 @@
      Used by MediaGallery in js/gallery.js
      ========================================================================= -->
 <div class="instagram-card instagram-post-card">
-	<div class="instagram-embed-wrapper instagram-post-wrapper">
-		<iframe
-			src=""
-			class="instagram-iframe"
-			frameborder="0"
-			scrolling="no"
-			allowtransparency="true"
-			allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-			width="100%"
-			height="480"
-			style="min-height: 480px; width: 100%; border: none;"
-			data-field="iframe">
-		</iframe>
-	</div>
-	<div class="instagram-caption" data-field="caption-container">
-		<h3 class="instagram-title" data-field="title"></h3>
-		<p class="instagram-description" data-field="description"></p>
-	</div>
+    <!-- Added data-field="embed-container" here -->
+    <div class="instagram-embed-wrapper instagram-post-wrapper" data-field="embed-container">
+    </div>
+    <div class="instagram-caption" data-field="caption-container">
+        <h3 class="instagram-title" data-field="title"></h3>
+        <p class="instagram-description" data-field="description"></p>
+    </div>
 </div>
